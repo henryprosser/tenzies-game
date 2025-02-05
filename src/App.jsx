@@ -12,9 +12,16 @@ function App() {
     return <Die className="die" value={num}></Die>;
   });
 
+  function rollDice() {
+    setDice(generateAllNewDice);
+  }
+
   return (
     <main>
       <div className="dice__container">{diceElements}</div>
+      <button className="roll__button" onClick={rollDice}>
+        Roll
+      </button>
     </main>
   );
 }
