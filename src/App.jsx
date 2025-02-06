@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Die from "../components/Die";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
@@ -6,17 +6,24 @@ import Confetti from "react-confetti";
 function App() {
   const [dice, setDice] = useState(() => generateAllNewDice());
   const [gameWon, setGameWon] = useState(false);
+  const buttonFocus = useRef(null);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
     const allSameValue = dice.every((die) => die.value === dice[0].value);
 
     if (allHeld && allSameValue) {
-      setGameWon(true); // Set game as won if conditions are met
+      setGameWon(true);
     } else {
-      setGameWon(false); // Otherwise, ensure gameWon is false
+      setGameWon(false);
     }
   }, [dice]);
+
+  useEffect(() => {
+    if (gameWon) {
+      buttonFocus.current.focus();
+    }
+  }, [gameWon]);
 
   function generateAllNewDice() {
     return new Array(10).fill(0).map(() => ({
@@ -69,12 +76,18 @@ function App() {
       </p>
       <div className="dice__container">{diceElements}</div>
       <button
+        ref={buttonFocus}
         className="roll__button"
         onClick={gameWon ? startNewGame : rollDice}
       >
         {gameWon ? "New Game" : "Roll"}
       </button>
       {gameWon && <Confetti />}
+      <div aria-live="polite" className="sr-only">
+        {gameWon && (
+          <p>Congratulations! You won! Press "New Game" to start again.</p>
+        )}
+      </div>
     </main>
   );
 }
