@@ -1,9 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Die from "../components/Die";
 import { nanoid } from "nanoid";
+import Confetti from "react-confetti";
 
 function App() {
-  const [dice, setDice] = useState(generateAllNewDice());
+  const [dice, setDice] = useState(() => generateAllNewDice());
+  const [gameWon, setGameWon] = useState(false);
+
+  useEffect(() => {
+    const allHeld = dice.every((die) => die.isHeld);
+    const allSameValue = dice.every((die) => die.value === dice[0].value);
+
+    if (allHeld && allSameValue) {
+      setGameWon(true); // Set game as won if conditions are met
+    } else {
+      setGameWon(false); // Otherwise, ensure gameWon is false
+    }
+  }, [dice]);
 
   function generateAllNewDice() {
     return new Array(10).fill(0).map(() => ({
@@ -43,6 +56,10 @@ function App() {
     );
   }
 
+  function startNewGame() {
+    setDice(generateAllNewDice());
+  }
+
   return (
     <main>
       <h1 className="title">Tenzies</h1>
@@ -51,9 +68,13 @@ function App() {
         current value between rolls.
       </p>
       <div className="dice__container">{diceElements}</div>
-      <button className="roll__button" onClick={rollDice}>
-        Roll
+      <button
+        className="roll__button"
+        onClick={gameWon ? startNewGame : rollDice}
+      >
+        {gameWon ? "New Game" : "Roll"}
       </button>
+      {gameWon && <Confetti />}
     </main>
   );
 }
