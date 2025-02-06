@@ -12,6 +12,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: 540px;
 }
 
 button {
@@ -34,8 +35,23 @@ main {
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  padding: 20px 80px;
+}
+
+.title {
+  color: #2b283a;
+  font-size: 2.3rem;
+  margin: 0;
+}
+
+.instructions {
+  color: #4a4e74;
+  font-size: 1.2rem;
+  letter-spacing: -0.5px;
+  text-align: center;
+  margin-top: -10px;
 }
 
 .dice__container {
