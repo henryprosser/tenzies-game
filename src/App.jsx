@@ -4,8 +4,8 @@ import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 
 function App() {
-  const [dice, setDice] = useState(generateAllNewDice());
-  const [gameWon, setGameWon] = useState(false); // Track game won status
+  const [dice, setDice] = useState(() => generateAllNewDice());
+  const [gameWon, setGameWon] = useState(false);
 
   useEffect(() => {
     const allHeld = dice.every((die) => die.isHeld);
@@ -56,6 +56,10 @@ function App() {
     );
   }
 
+  function startNewGame() {
+    setDice(generateAllNewDice());
+  }
+
   return (
     <main>
       <h1 className="title">Tenzies</h1>
@@ -64,7 +68,10 @@ function App() {
         current value between rolls.
       </p>
       <div className="dice__container">{diceElements}</div>
-      <button className="roll__button" onClick={rollDice}>
+      <button
+        className="roll__button"
+        onClick={gameWon ? startNewGame : rollDice}
+      >
         {gameWon ? "New Game" : "Roll"}
       </button>
       {gameWon && <Confetti />}
