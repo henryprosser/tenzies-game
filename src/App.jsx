@@ -1,9 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Die from "../components/Die";
 import { nanoid } from "nanoid";
 
 function App() {
   const [dice, setDice] = useState(generateAllNewDice());
+  const [gameWon, setGameWon] = useState(false); // Track game won status
+
+  useEffect(() => {
+    const allHeld = dice.every((die) => die.isHeld);
+    const allSameValue = dice.every((die) => die.value === dice[0].value);
+
+    if (allHeld && allSameValue) {
+      setGameWon(true); // Set game as won if conditions are met
+    } else {
+      setGameWon(false); // Otherwise, ensure gameWon is false
+    }
+  }, [dice]);
 
   function generateAllNewDice() {
     return new Array(10).fill(0).map(() => ({
@@ -52,7 +64,7 @@ function App() {
       </p>
       <div className="dice__container">{diceElements}</div>
       <button className="roll__button" onClick={rollDice}>
-        Roll
+        {gameWon ? "New Game" : "Roll"}
       </button>
     </main>
   );
