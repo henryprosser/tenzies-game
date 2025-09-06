@@ -84,9 +84,12 @@ main {
   background-color: #ffffff;
 }
 
+.die:active {
+  transform: scale(0.98);
+}
+
 .roll__button {
   height: 36px;
-  width: 92px;
   box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.18);
   background-color: #5035ff;
   color: #ffffff;
@@ -95,6 +98,37 @@ main {
   white-space: nowrap;
   width: auto;
   padding: 6px 32px;
+  transition: all 0.2s ease;
+}
+
+.roll__button:active {
+  transform: scale(0.96);
+}
+
+.roll__button:hover {
+  background-color: #3f29cc;
+}
+
+.roll__button:hover {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(4px) rotate(5deg);
+  }
+  75% {
+    transform: translateX(-2px) rotate(-3deg);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .sr-only {
